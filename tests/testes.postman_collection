@@ -1,0 +1,266 @@
+{
+	"info": {
+		"_postman_id": "099fa500-0945-43c3-9be6-53c472a50bec",
+		"name": "Testes - Automatizados",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Automatizados",
+			"description": "",
+			"item": [
+				{
+					"name": "Com gerador de CPF em java script",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "305055b6-5c3a-4304-a20f-3cec169c3d7b",
+								"type": "text/javascript",
+								"exec": [
+									"pm.environment.set(\"cpf_number\", gerarCPF());",
+									"pm.environment.set(\"cat_name\", namecategoria());",
+									"//pm.environment.set(\"nome da variavel\", new Date()); - seta uma data",
+									"",
+									"function randomiza(n) {",
+									"    var ranNum = Math.round(Math.random()*n);",
+									"    return ranNum;",
+									"}",
+									"",
+									"function mod(dividendo,divisor) {",
+									"    return Math.round(dividendo - (Math.floor(dividendo/divisor)*divisor));",
+									"}",
+									"",
+									"function gerarCPF() {",
+									"    var n = 9;",
+									"    var n1 = randomiza(n);",
+									"    var n2 = randomiza(n);",
+									"    var n3 = randomiza(n);",
+									"    var n4 = randomiza(n);",
+									"    var n5 = randomiza(n);",
+									"    var n6 = randomiza(n);",
+									"    var n7 = randomiza(n);",
+									"    var n8 = randomiza(n);",
+									"    var n9 = randomiza(n);",
+									"    var d1 = n9*2+n8*3+n7*4+n6*5+n5*6+n4*7+n3*8+n2*9+n1*10;",
+									"    d1 = 11 - ( mod(d1,11) );",
+									"    if (d1>=10) d1 = 0;",
+									"    var d2 = d1*2+n9*3+n8*4+n7*5+n6*6+n5*7+n4*8+n3*9+n2*10+n1*11;",
+									"    d2 = 11 - ( mod(d2,11) );",
+									"    if (d2>=10) d2 = 0;",
+									"    retorno = '';",
+									"    cpf = ''+n1+n2+n3+n4+n5+n6+n7+n8+n9+d1+d2;",
+									"    ",
+									"    return cpf;",
+									"",
+									"}",
+									"",
+									"function namecategoria() {",
+									"  var name = \"\";",
+									"  var letras = \"abcdefghijklmnopqrstuvwxyz\";",
+									"",
+									"  for (var i = 0; i < 5; i++)",
+									"    name += letras.charAt(Math.floor(Math.random() * letras.length));",
+									"",
+									"  return name;",
+									"}",
+									"",
+									"//console.log(namecategoria());",
+									"",
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "ffe8e09d-02d8-41f5-9c63-02ee1247b47d",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Validar mensagem sucesso\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"Categoria inserida com sucesso.\");",
+									"});",
+									"",
+									"",
+									"",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"documentNumber\":\"{{cpf_number}}\",\r\n  \"categoryName\":\"{{cat_name}}\",\r\n  \"categoryIcon\":\"fsdafsafasdfsadf\",\r\n  \"categoryTag\":\"#testinclusao\"\r\n}\r\n\r\n"
+						},
+						"url": {
+							"raw": "https://bdrapimanagementhk.santanderbr.pre.corp/agregador-ci/indcategory/insert-category",
+							"protocol": "https",
+							"host": [
+								"bdrapimanagementhk",
+								"santanderbr",
+								"pre",
+								"corp"
+							],
+							"path": [
+								"agregador-ci",
+								"indcategory",
+								"insert-category"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar categoria com gerador de cpf",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "bbb666ae-8bf8-4d2b-9854-2ecbfb3d0ae4",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Validar codigo 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Validar dados response\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var categoryName =  \"{{cat_name}}\"",
+									"    var categoryDate = \"\"",
+									"    var categoryTag =  \"#testinclusao\"",
+									"    var categoryIcon =  \"fsdafsafasdfsadf\"",
+									"    pm.expect(categoryName).to.eql(\"{{cat_name}}\");",
+									"    pm.variables.get(\"categoryDate\");",
+									"    pm.expect(categoryTag).to.eql(\"#testinclusao\");",
+									"    pm.expect(categoryIcon).to.eql(\"fsdafsafasdfsadf\");",
+									"});",
+									"",
+									"",
+									"",
+									""
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "ab832545-05ea-4e07-8338-f48f164689e4",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"documentNumber\":\"{{cpf_number}}\"\n}\n\n\n\n"
+						},
+						"url": {
+							"raw": "https://bdrapimanagementhk.santanderbr.pre.corp/agregador-ci/indcategory/list-category",
+							"protocol": "https",
+							"host": [
+								"bdrapimanagementhk",
+								"santanderbr",
+								"pre",
+								"corp"
+							],
+							"path": [
+								"agregador-ci",
+								"indcategory",
+								"list-category"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "Bearer 328069ca-1a48-30b0-8d6c-326e1fe9eed1",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "f67301a0-cd4e-4005-8026-0563d28b2eec",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "60d9a2d3-1f5f-4654-8210-cecd0608a754",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "9b3de5de-440e-4350-b0cd-32ea51260ea1",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "f7ee54d9-6d84-4d97-8aa9-1ccb58bf291b",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "8e6132bf-02c8-4df3-aeb1-149746f8a00a",
+			"key": "cpf_number",
+			"value": "cpf",
+			"type": "string",
+			"description": ""
+		},
+		{
+			"id": "4f3810c2-176f-4980-a6ae-6c06b52855f3",
+			"key": "cat_name",
+			"value": "namecategoria",
+			"type": "string",
+			"description": ""
+		}
+	]
+}
