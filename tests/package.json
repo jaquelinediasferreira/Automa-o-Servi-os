@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Project for storing Postman tests",
   "scripts": {
-    "test": "newman run Testes Automatizados/tests/testes.postman_collection.json --reporter-junit-export newman.xml"
+    "test": "newman run wokspace/postman-newman-jenkins/tests.json --reporter-junit-export newman.xml"
   },
   "author": "Jaqueline Ferreira",
   "license": "ISC",
